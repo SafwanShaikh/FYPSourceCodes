@@ -1,0 +1,45 @@
+from skmultilearn.problem_transform import BinaryRelevance
+from sklearn.naive_bayes import GaussianNB
+
+# initialize binary relevance multi-label classifier
+# with a gaussian naive bayes base classifier
+classifierBR = BinaryRelevance(GaussianNB())
+
+# train
+X_trainBR = np.array(firstSemesterGPAs[0:120])
+Y_trainBR = np.array(secondSemesterGPAs[0:120])
+classifierBR.fit(X_trainBR, Y_trainBR)
+
+# predict
+X_testBR = np.array(firstSemesterGPAs[-57:])
+predictionsBR = classifierBR.predict(X_testBR)
+predictionsBR = predictionsBR.toarray()
+predictionsBR = predictionsBR.ravel()
+Y_testBR = np.array(secondSemesterGPAs[-57:])
+Y_testBR = Y_testBR.ravel()
+
+from sklearn.metrics import accuracy_score
+print(accuracy_score(Y_testBR, predictionsBR))
+
+###################################
+# using classifier chains
+from skmultilearn.problem_transform import ClassifierChain
+from sklearn.naive_bayes import GaussianNB
+
+# initialize classifier chains multi-label classifier
+# with a gaussian naive bayes base classifier
+classifierCC = ClassifierChain(GaussianNB())
+
+# train
+X_trainCC = np.array(firstSemesterGPAs[0:120])
+Y_trainCC = np.array(secondSemesterGPAs[0:120])
+classifierCC.fit(X_trainCC, Y_trainCC)
+
+# predict
+X_testCC = np.array(firstSemesterGPAs[-57:])
+Y_testCC = np.array(secondSemesterGPAs[-57:])
+Y_testCC = Y_testCC.ravel()
+predictionsCC = classifierCC.predict(X_testCC)
+predictionsCC = predictionsCC.toarray()
+predictionsCC = predictionsCC.ravel()
+print(accuracy_score(Y_testCC, predictionsCC))
