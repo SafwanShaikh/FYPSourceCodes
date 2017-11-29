@@ -56,11 +56,11 @@ for i in range(len(DB)):
 
 from sklearn.naive_bayes import GaussianNB
 clf = GaussianNB()
-X_trainCP = np.array(GPAs[0:210])
-Y_trainCP = np.array(DB[0:210])
+X_trainCP = np.array(GPAs[-220:])
+Y_trainCP = np.array(DB[-220:])
 clf.fit(X_trainCP, Y_trainCP)
-X_test = np.array(GPAs[-89:])
-Y_test = np.array(DB[-89:])
+X_test = np.array(GPAs[:79])
+Y_test = np.array(DB[:79])
 Y_test = Y_test.ravel()
 prediction = clf.predict(X_test)
 prediction = prediction.ravel()
