@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-df = pd.read_csv('DBchain.csv')
+df = pd.read_csv('DBChain.csv')
 ITC = np.array(df['Introduction to Computer Science'])
 CP = np.array(df['Computer Programming'])
 DS = np.array(df['Data Structures'])
@@ -67,3 +67,16 @@ prediction = prediction.ravel()
 from sklearn.metrics import accuracy_score
 print(accuracy_score(Y_test, prediction))
 print(accuracy_score(Y_test, prediction, normalize=False)) #If False, return the number of correctly classified samples. Otherwise, return the fraction of correctly classified samples.
+
+#import matplotlib.pyplot as plt
+#import pylab
+
+#plt.scatter(CP, DB)
+
+#plt.show()
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+sns.pairplot(df, hue="Database Systems") #Variable in data to map plot aspects to different colors.
+
+plt.show()
