@@ -14,7 +14,9 @@ for i in range(len(ITC)):
 GPAs = np.array(AllGPAs)
 
 for i in range(len(GPAs)):
-    if GPAs[i] == 1.33:
+    if GPAs[i] == 1.00:
+        GPAs[i] = 1
+    elif GPAs[i] == 1.33:
         GPAs[i] = 2
     elif GPAs[i] == 1.67:
         GPAs[i] = 3
@@ -35,20 +37,22 @@ for i in range(len(GPAs)):
 GPAs = GPAs.reshape(int(len(AllGPAs)/3), 3)
 
 for i in range(len(DB)):
-    if DB[i] == 1.33:
-        DB[i] = 2
+    if DB[i] == 1.0:
+        DB[i] = 1
+    elif DB[i] == 1.33:
+        DB[i] = 1
     elif DB[i] == 1.67:
         DB[i] = 2
     elif DB[i] == 2.0:
         DB[i] = 2
     elif DB[i] == 2.33:
-        DB[i] = 3
+        DB[i] = 2
     elif DB[i] == 2.67:
         DB[i] = 3
     elif DB[i] == 3.0:
         DB[i] = 3
     elif DB[i] == 3.33:
-        DB[i] = 4
+        DB[i] = 3
     elif DB[i] == 3.67:
         DB[i] = 4
     elif DB[i] == 4.0:
@@ -56,11 +60,11 @@ for i in range(len(DB)):
 
 from sklearn.naive_bayes import GaussianNB
 clf = GaussianNB()
-X_trainCP = np.array(GPAs[-220:])
-Y_trainCP = np.array(DB[-220:])
+X_trainCP = np.array(GPAs[:228])
+Y_trainCP = np.array(DB[:228])
 clf.fit(X_trainCP, Y_trainCP)
-X_test = np.array(GPAs[:79])
-Y_test = np.array(DB[:79])
+X_test = np.array(GPAs[-71:])
+Y_test = np.array(DB[-71:])
 Y_test = Y_test.ravel()
 prediction = clf.predict(X_test)
 prediction = prediction.ravel()
@@ -78,5 +82,4 @@ print(accuracy_score(Y_test, prediction, normalize=False)) #If False, return the
 import seaborn as sns
 import matplotlib.pyplot as plt
 sns.pairplot(df, hue="Database Systems") #Variable in data to map plot aspects to different colors.
-
 plt.show()

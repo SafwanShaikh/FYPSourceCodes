@@ -18,7 +18,9 @@ for i in range(len(Phy)):
 GPAs = np.array(AllGPAs)
 
 for i in range(len(GPAs)):
-    if GPAs[i] == 1.33:
+    if GPAs[i] == 1.0:
+        GPAs[i] = 1
+    elif GPAs[i] == 1.33:
         GPAs[i] = 2
     elif GPAs[i] == 1.67:
         GPAs[i] = 3
@@ -39,20 +41,22 @@ for i in range(len(GPAs)):
 GPAs = GPAs.reshape(int(len(AllGPAs)/4), 4)
 
 for i in range(len(CA)):
-    if CA[i] == 1.33:
-        CA[i] = 2
+    if CA[i] == 1.0:
+        CA[i] = 1
+    elif CA[i] == 1.33:
+        CA[i] = 1
     elif CA[i] == 1.67:
         CA[i] = 2
     elif CA[i] == 2.0:
         CA[i] = 2
     elif CA[i] == 2.33:
-        CA[i] = 3
+        CA[i] = 2
     elif CA[i] == 2.67:
         CA[i] = 3
     elif CA[i] == 3.0:
         CA[i] = 3
     elif CA[i] == 3.33:
-        CA[i] = 4
+        CA[i] = 3
     elif CA[i] == 3.67:
         CA[i] = 4
     elif CA[i] == 4.0:
@@ -60,11 +64,11 @@ for i in range(len(CA)):
 
 from sklearn.naive_bayes import GaussianNB
 clf = GaussianNB()
-X_trainCP = np.array(GPAs[:220])
-Y_trainCP = np.array(CA[:220])
+X_trainCP = np.array(GPAs[:204])
+Y_trainCP = np.array(CA[:204])
 clf.fit(X_trainCP, Y_trainCP)
-X_test = np.array(GPAs[-73:])
-Y_test = np.array(CA[-73:])
+X_test = np.array(GPAs[-86:])
+Y_test = np.array(CA[-86:])
 Y_test = Y_test.ravel()
 prediction = clf.predict(X_test)
 prediction = prediction.ravel()
