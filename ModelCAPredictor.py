@@ -18,7 +18,9 @@ for i in range(len(Phy)):
 GPAs = np.array(AllGPAs)
 
 for i in range(len(GPAs)):
-    if GPAs[i] == 1.0:
+    if GPAs[i] == 0:
+        GPAs[i] = 0
+    elif GPAs[i] == 1.0:
         GPAs[i] = 1
     elif GPAs[i] == 1.33:
         GPAs[i] = 2
@@ -41,7 +43,9 @@ for i in range(len(GPAs)):
 GPAs = GPAs.reshape(int(len(AllGPAs)/4), 4)
 
 for i in range(len(CA)):
-    if CA[i] == 1.0:
+    if CA[i] == 0:
+        CA[i] = 0
+    elif CA[i] == 1.0:
         CA[i] = 1
     elif CA[i] == 1.33:
         CA[i] = 1
@@ -64,16 +68,16 @@ for i in range(len(CA)):
 
 from sklearn.naive_bayes import GaussianNB
 clf = GaussianNB()
-X_trainCP = np.array(GPAs[:214])
-Y_trainCP = np.array(CA[:214])
+X_trainCP = np.array(GPAs[:244])
+Y_trainCP = np.array(CA[:244])
 clf.fit(X_trainCP, Y_trainCP)
-X_test = np.array(GPAs[-76:])
-Y_test = np.array(CA[-76:])
+X_test = np.array(GPAs[-44:])
+Y_test = np.array(CA[-44:])
 Y_test = Y_test.ravel()
 prediction = clf.predict(X_test)
 prediction = prediction.ravel()
 from sklearn.metrics import accuracy_score
-print(accuracy_score(Y_test, prediction))
+print(accuracy_score(Y_test, prediction)*100)
 print(accuracy_score(Y_test, prediction, normalize=False)) #If False, return the number of correctly classified samples. Otherwise, return the fraction of correctly classified samples.
 
 #import matplotlib.pyplot as plt

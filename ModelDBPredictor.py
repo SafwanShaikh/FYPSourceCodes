@@ -60,26 +60,23 @@ for i in range(len(DB)):
 
 from sklearn.naive_bayes import GaussianNB
 clf = GaussianNB()
-X_trainCP = np.array(GPAs[:228])
-Y_trainCP = np.array(DB[:228])
-clf.fit(X_trainCP, Y_trainCP)
+
+#from sklearn.naive_bayes import MultinomialNB
+#clf = MultinomialNB()
+
+X_train = np.array(GPAs[:228])
+Y_train = np.array(DB[:228])
+clf.fit(X_train, Y_train)
 X_test = np.array(GPAs[-71:])
 Y_test = np.array(DB[-71:])
 Y_test = Y_test.ravel()
 prediction = clf.predict(X_test)
 prediction = prediction.ravel()
 from sklearn.metrics import accuracy_score
-print(accuracy_score(Y_test, prediction))
+print(accuracy_score(Y_test, prediction)*100)
 print(accuracy_score(Y_test, prediction, normalize=False)) #If False, return the number of correctly classified samples. Otherwise, return the fraction of correctly classified samples.
 
+#import seaborn as sns
 #import matplotlib.pyplot as plt
-#import pylab
-
-#plt.scatter(CP, DB)
-
+#sns.pairplot(df, hue="Database Systems") #Variable in data to map plot aspects to different colors.
 #plt.show()
-
-import seaborn as sns
-import matplotlib.pyplot as plt
-sns.pairplot(df, hue="Database Systems") #Variable in data to map plot aspects to different colors.
-plt.show()
