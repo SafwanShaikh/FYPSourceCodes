@@ -1,17 +1,14 @@
 import numpy as np
 import pandas as pd
 
-df = pd.read_csv('DBChain.csv')
-#print(df.columns)
-ITC = np.array(df['Introduction to Computer Science'])
-CP = np.array(df['Computer Programming'])
-DS = np.array(df['Data Structures'])
-DB = np.array(df['Database Systems'])
+df = pd.read_csv('weightedTBW.csv')
+ITC = np.array(df['ENG1'])
+CP = np.array(df['ENG2'])
+DB = np.array(df['Technical and Business Writing'])
 AllGPAs = []
 for i in range(len(ITC)):
     AllGPAs.append(ITC[i])
     AllGPAs.append(CP[i])
-    AllGPAs.append(DS[i])
 GPAs = np.array(AllGPAs)
 
 for i in range(len(GPAs)):
@@ -35,9 +32,9 @@ for i in range(len(GPAs)):
         GPAs[i] = 9
     elif GPAs[i] == 4.0:
         GPAs[i] = 10
-GPAs = GPAs.reshape(int(len(AllGPAs)/3), 3) #(299, 3)
+GPAs = GPAs.reshape(int(len(AllGPAs)/2), 2)
 
-for i in range(len(DB)): #(299,1)
+for i in range(len(DB)):
     if DB[i] == 1.0:
         DB[i] = 1
     elif DB[i] == 1.33:
@@ -59,23 +56,26 @@ for i in range(len(DB)): #(299,1)
     elif DB[i] == 4.0:
         DB[i] = 4
 
-#from sklearn.naive_bayes import GaussianNB
-#clf = GaussianNB()
+from sklearn.naive_bayes import GaussianNB
+clf = GaussianNB()
 
-from sklearn.naive_bayes import MultinomialNB
-clf = MultinomialNB()
+#from sklearn.naive_bayes import MultinomialNB
+#clf = MultinomialNB()
+from sklearn.model_selection import train_test_split
 
-X_train = np.array(GPAs[:589])
-Y_train = np.array(DB[:589])
-clf.fit(X_train, Y_train)
-X_test = np.array(GPAs[-151:])
-Y_test = np.array(DB[-151:])
-Y_test = Y_test.ravel()
+
+X_train, X_test, y_train, y_test = train_test_split(GPAs, DB, test_size=0.20)
+#X_train = np.array(GPAs[:220])
+#y_train = np.array(DB[:220])
+clf.fit(X_train, y_train)
+#X_test = np.array(GPAs[-75:])
+#y_test = np.array(DB[-75:])
+y_test = y_test.ravel()
 prediction = clf.predict(X_test)
 prediction = prediction.ravel()
 from sklearn.metrics import accuracy_score
-print(accuracy_score(Y_test, prediction)*100)
-print(accuracy_score(Y_test, prediction, normalize=False)) #If False, return the number of correctly classified samples. Otherwise, return the fraction of correctly classified samples.
+print(accuracy_score(y_test, prediction)*100)
+print(accuracy_score(y_test, prediction, normalize=False)) #If False, return the number of correctly classified samples. Otherwise, return the fraction of correctly classified samples.
 
 #import seaborn as sns
 #import matplotlib.pyplot as plt

@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 
 df = pd.read_csv('DBChain.csv')
-#print(df.columns)
 ITC = np.array(df['Introduction to Computer Science'])
 CP = np.array(df['Computer Programming'])
 DS = np.array(df['Data Structures'])
@@ -35,9 +34,9 @@ for i in range(len(GPAs)):
         GPAs[i] = 9
     elif GPAs[i] == 4.0:
         GPAs[i] = 10
-GPAs = GPAs.reshape(int(len(AllGPAs)/3), 3) #(299, 3)
+GPAs = GPAs.reshape(int(len(AllGPAs)/3), 3)
 
-for i in range(len(DB)): #(299,1)
+for i in range(len(DB)):
     if DB[i] == 1.0:
         DB[i] = 1
     elif DB[i] == 1.33:
@@ -59,25 +58,21 @@ for i in range(len(DB)): #(299,1)
     elif DB[i] == 4.0:
         DB[i] = 4
 
-#from sklearn.naive_bayes import GaussianNB
-#clf = GaussianNB()
 
-from sklearn.naive_bayes import MultinomialNB
-clf = MultinomialNB()
+cor_df = df.drop(['ID'], axis=1)
+#print("Before Pre-processing(9 classes):")
+print(cor_df.corr())
+temp_df = cor_df
+di_other = {1.00: "1", 1.33: "2", 1.67: "3", 2.00: "4", 2.33: "5", 2.67: "6", 3.00: "7", 3.33: "8", 3.67: "9", 4.0: "10"}
+di_db = {1.00: "1", 1.33: "1", 1.67: "2", 2.00: "2", 2.33: "2", 2.67: "3", 3.00: "3", 3.33: "3", 3.67: "4", 4.0: "4"}
+temp_df = temp_df.replace({"Introduction to Computer Science": di_other, "Computer Programming": di_other, "Data Structures": di_other, "Database Systems": di_db})
+print("After Pre-processing(4 classes):")
+print(temp_df.corr())
 
-X_train = np.array(GPAs[:589])
-Y_train = np.array(DB[:589])
-clf.fit(X_train, Y_train)
-X_test = np.array(GPAs[-151:])
-Y_test = np.array(DB[-151:])
-Y_test = Y_test.ravel()
-prediction = clf.predict(X_test)
-prediction = prediction.ravel()
-from sklearn.metrics import accuracy_score
-print(accuracy_score(Y_test, prediction)*100)
-print(accuracy_score(Y_test, prediction, normalize=False)) #If False, return the number of correctly classified samples. Otherwise, return the fraction of correctly classified samples.
-
-#import seaborn as sns
-#import matplotlib.pyplot as plt
-#sns.pairplot(df, hue="Database Systems") #Variable in data to map plot aspects to different colors.
-#plt.show()
+"""
+import matplotlib.pyplot as plt
+plt.scatter(ITC, DB)
+plt.xlabel('ITC')
+plt.ylabel('DB')
+plt.show()
+"""

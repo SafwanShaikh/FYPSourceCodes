@@ -49,18 +49,19 @@ clf = GaussianNB()
 
 #from sklearn.naive_bayes import MultinomialNB
 #clf = MultinomialNB()
-
-X_train = np.array(GPAs[:122])
-Y_train = np.array(CP[:122])
-clf.fit(X_train, Y_train)
-X_test = np.array(GPAs[-54:])
-Y_test = np.array(CP[-54:])
-Y_test = Y_test.ravel()
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(GPAs, CP, test_size=0.25)
+#X_train = np.array(GPAs[:122])
+#y_train = np.array(CP[:122])
+clf.fit(X_train, y_train)
+#X_test = np.array(GPAs[-54:])
+#y_test = np.array(CP[-54:])
+y_test = y_test.ravel()
 prediction = clf.predict(X_test)
 prediction = prediction.ravel()
 from sklearn.metrics import accuracy_score
-print(accuracy_score(Y_test, prediction)*100)
-print(accuracy_score(Y_test, prediction, normalize=False)) #If False, return the number of correctly classified samples. Otherwise, return the fraction of correctly classified samples.
+print(accuracy_score(y_test, prediction)*100)
+print(accuracy_score(y_test, prediction, normalize=False)) #If False, return the number of correctly classified samples. Otherwise, return the fraction of correctly classified samples.
 
 #import seaborn as sns
 #import matplotlib.pyplot as plt

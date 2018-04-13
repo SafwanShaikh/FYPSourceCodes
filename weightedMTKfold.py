@@ -1,41 +1,45 @@
 import numpy as np
 import pandas as pd
 
-df = pd.read_csv('weightedCA.csv')
-sum = np.array(df['SUM5'])
-CA = np.array(df['Computer Architecture'])
+df = pd.read_csv('MTchain.csv')
+sum = np.array(df['SUM1'])
+PB = np.array(df['Probability & Statistics'])
 sum = sum.reshape((len(sum), 1))
 
-for i in range(len(CA)):
-    if CA[i] == 50:
-        CA[i] = 1
-    elif CA[i] == 54:
-        CA[i] = 1
-    elif CA[i] == 58:
-        CA[i] = 2
-    elif CA[i] == 62:
-        CA[i] = 2
-    elif CA[i] == 66:
-        CA[i] = 2
-    elif CA[i] == 70:
-        CA[i] = 3
-    elif CA[i] == 74:
-        CA[i] = 3
-    elif CA[i] == 78:
-        CA[i] = 3
-    elif CA[i] == 82:
-        CA[i] = 4
-    elif CA[i] == 86:
-        CA[i] = 4
-
+for i in range(len(PB)):
+    if PB[i] == 0:
+        PB[i] = 0
+    elif PB[i] == 50:
+        PB[i] = 1
+    elif PB[i] == 54:
+        PB[i] = 1
+    elif PB[i] == 58:
+        PB[i] = 2
+    elif PB[i] == 62:
+        PB[i] = 2
+    elif PB[i] == 66:
+        PB[i] = 2
+    elif PB[i] == 70:
+        PB[i] = 3
+    elif PB[i] == 74:
+        PB[i] = 3
+    elif PB[i] == 78:
+        PB[i] = 3
+    elif PB[i] == 82:
+        PB[i] = 4
+    elif PB[i] == 86:
+        PB[i] = 4
 
 from sklearn.naive_bayes import GaussianNB
 clf = GaussianNB()
 
+#from sklearn.naive_bayes import MultinomialNB
+#clf = MultinomialNB()
+
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold
 X = sum
-y = CA
+y = PB
 kf = KFold(n_splits=20)
 acc = []
 for train_index, test_index in kf.split(X):

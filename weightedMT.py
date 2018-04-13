@@ -37,7 +37,7 @@ clf = GaussianNB()
 from sklearn.model_selection import train_test_split
 #from sklearn.model_selection import KFold
 
-X_train, X_test, y_train, y_test = train_test_split(sum, PB, test_size=0.25)
+X_train, X_test, y_train, y_test = train_test_split(sum, PB, test_size=0.20)
 #X_train = np.array(sum[:230])
 #y_train = np.array(PB[:230])
 #X_test = np.array(sum[-70:])
